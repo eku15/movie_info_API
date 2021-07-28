@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movie Information 3</title>
+    <style>
+        #movie{
+            height:40px;
+            width: 200px;
+            font-size: 20px;
+             font-weight: 600;
+             border-radius: 5px;
+             border-color:rgb(6, 6, 105);
+          
+        }
+        button{
+            height:40px;
+            width: 150px;
+            font-size: 20px;
+            color: white;
+            background-color: rgb(6, 6, 105);
+            border-radius: 5px;
+            border-color: orangered;
+            margin-top: 10px;
+          
+            
+        }
+        .whole{
+            display: flex;
+            height: 30vh;
+            width: 40vw;  
+            flex-flow: column; 
+             align-items: center;
+            margin: auto;
+            background-color: coral;
+            border: 1px solid blue;
+            
+        }
+        body{
+            display: grid;
+            justify-content: center;
+            background-color: burlywood;
+              
+        }
+        
+    </style>
+
+</head>
+<body>
+    <div class="whole"> 
+     <h1 style="color:rgb(6, 6, 105);">Get Every Movie Details</h1>
+     <input type="text" id="movie" placeholder="Movie Name"/>
+    <button onclick="movieRequest()">Get Details</button>
+    </div>
+</body>
+</html>
+<script>
+
+async function movieRequest(){ 
+    try{
+
+       var movieName=document.getElementById("movie").value;
+       let response= await fetch(`http://www.omdbapi.com/?t=${movieName}&apikey=7d1713e1`);
+       let data=await response.json();
+
+
+
+       var div=document.createElement("div");
+       var img=document.createElement("img");
+       var errorimg=document.createElement("img");
+       div.setAttribute("style","font-size:15px;width:546px;margin:auto;font-family:Arial;border:1px solid blue;background-color:coral;font-weight:600");
+       document.body.appendChild(div);
+       img.src=data.Poster; 
+       errorimg.src="https://freefrontend.com/assets/img/html-css-404-page-templates/404-not-found.png"
+       img.setAttribute("style","width:150px;height:150px;");
+       errorimg.setAttribute("style","width:300px;height:300px;margin:auto");
+
+
+       var pRate=document.createElement("p");
+
+       if(data.Title==undefined)
+       {
+          document.body.appendChild(errorimg);
+       }
+       else
+       {
+        
+       div.innerHTML=`
+          <p>Title : ${data.Title}</p>
+          <p>Year : ${data.Year}</p>
+          <p>Rated : ${data.Rated}</p>
+          <p>Runtime : ${data.Runtime}</p>
+          <p>Country : ${data.Country}</p>
+          <p>Language : ${data.Language}</p>
+          <p>Writer : ${data.Writer}</p>
+           <p>Ratings : ${data.Ratings[0].Value}</p>
+            
+         `;
+         
+         if(data.Ratings[0].Value>"8.5/10"){
+         pRate.innerHTML=`Must Watch (Highly Recommended)`
+         div.appendChild(pRate);
+         div.setAttribute("style","background-color:green");
+         } 
+         
+        else if(data.Ratings[0].Value<"2.5/10"){
+         pRate.innerHTML=`(Not Recommended)`
+         div.appendChild(pRate);
+         div.setAttribute("style","background-color:red");
+         } 
+
+
+
+
+
+         div.appendChild(img);
+       
+       }
+       console.log("data:",data);
+       
+    }
+    catch(err){
+        console.log("err",err);
+    }
+}
+
+    
+
+</script>

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movie Information_1</title>
+    <style>
+        #movie{
+            height:40px;
+            width: 200px;
+            font-size: 20px;
+             font-weight: 600;
+             border-radius: 5px;
+             border-color:rgb(6, 6, 105);
+          
+        }
+        button{
+            height:40px;
+            width: 150px;
+            font-size: 20px;
+            color: white;
+            background-color: rgb(6, 6, 105);
+            border-radius: 5px;
+            border-color: orangered;
+            margin-top: 10px;
+          
+            
+        }
+        .whole{
+            display: flex;
+            height: 30vh;
+            width: 40vw;  
+            flex-flow: column; 
+             align-items: center;
+            margin: auto;
+            margin-top: 50px;
+            background-color: coral;
+            
+        }
+        
+    </style>
+
+</head>
+<body>
+    <div class="whole"> 
+     <h1 style="color:rgb(6, 6, 105);">Get Every Movie Details</h1>
+     <input type="text" id="movie" placeholder="Movie Name"/>
+    <button onclick="movieRequest()">Get Details</button>
+    </div>
+    <div id="details">
+
+    </div>
+    
+</body>
+</html>
+<script>
+
+async function movieRequest(){ 
+    try{
+       var details=document.getElementById("details"); 
+       var movieName=document.getElementById("movie").value;
+       let response= await fetch(`http://www.omdbapi.com/?t=${movieName}&apikey=7d1713e1`);
+       let data=await response.json();
+      /* var realData = JSON.stringify(data,10); 
+      var div=document.createElement("div");
+       div.setAttribute("style","font-size:15px;width:500px;margin:auto;font-family:sans-serif;border:1px solid black");
+       document.body.appendChild(div);
+       div.innerHTML=`${realData}`;
+       */
+       console.log("data:",data);
+    }
+    catch(err){
+        console.log("err",err);
+    }
+}
+
+
+</script>
